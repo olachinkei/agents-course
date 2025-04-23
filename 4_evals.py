@@ -1,5 +1,6 @@
+from typing import Any, Callable, List, Tuple
+
 from agents import Agent, Runner, function_tool
-from typing import Callable, Any, List, Tuple
 
 
 @function_tool

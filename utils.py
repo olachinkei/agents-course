@@ -3,7 +3,6 @@ Reusable helpers for MiniAgent (colourful logging, schema generation, etc.).
 """
 
 import inspect
-import json
 import re
 from typing import Any, Dict
 

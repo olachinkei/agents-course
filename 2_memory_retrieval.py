@@ -1,7 +1,14 @@
+import json
+import os
+
+import numpy as np
+import weave
 from agents import Agent, FileSearchTool, function_tool
 from openai import OpenAI
-import numpy as np, json, os
 
+import config
+
+weave.init(project_name=config.WEAVE_PROJECT)
 client = OpenAI()
 MEMORY_FILE = "memory_store.jsonl"
 
@@ -67,8 +74,9 @@ def query_memory(query: str) -> str:
     return "\n".join(hits) or "No matching memories."
 
 
-agent = Agent(
-    instructions="Answer questions about the user's memory.",
-    tools=[FileSearchTool(vector_store_ids=["123"])],
-    model="gpt-4o-mini",
-)
+if __name__ == "__main__":
+    agent = Agent(
+        instructions="Answer questions about the user's memory.",
+        tools=[FileSearchTool(vector_store_ids=["123"])],
+        model="gpt-4o-mini",
+    )
