@@ -5,7 +5,7 @@ from agents import Agent, Runner, function_tool
 
 import config
 
-weave.init(project_name=config.WEAVE_PROJECT)
+# weave.init(project_name=config.WEAVE_PROJECT)
 
 
 @function_tool
@@ -115,7 +115,7 @@ triage_agent = Agent(
 )
 
 
-@weave.op()
+# @weave.op()
 async def run_agent(prompt: str):
     response = await Runner.run(triage_agent, prompt)
     return response.final_output

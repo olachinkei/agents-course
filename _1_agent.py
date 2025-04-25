@@ -1,15 +1,16 @@
 import json
 
-import weave
 from openai import OpenAI
+from pydantic import BaseModel
 
-import config
+# import weave
 from utils import fn_to_schema, tag
 
-weave.init(project_name=config.WEAVE_PROJECT)
+# weave.init(project_name=config.WEAVE_PROJECT)
 
 
-class MiniAgent(weave.Model):
+# class MiniAgent(weave.Model):
+class MiniAgent(BaseModel):
 
     client: OpenAI = None
     instructions: str = ""
@@ -57,7 +58,7 @@ class MiniAgent(weave.Model):
         return []
 
     # ---------- main loop ----------------------------------------------
-    @weave.op()
+    # @weave.op()
     def run(self, user_text: str):
         print("Input:", user_text)
         turn_input = [{"role": "user", "content": user_text}]
@@ -90,7 +91,7 @@ class MiniAgent(weave.Model):
         return {"response": items[-1], "thoughts": items}
 
 
-@weave.op()
+# @weave.op()
 def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
     return a + b
