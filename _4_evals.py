@@ -16,7 +16,7 @@ from eval_utils import (
     create_agents,
 )
 
-weave.init(config.WEAVE_PROJECT_NAME)
+weave.init(config.WEAVE_PROJECT)
 
 
 @weave.op()
