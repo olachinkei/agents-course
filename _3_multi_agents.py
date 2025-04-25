@@ -122,6 +122,7 @@ async def run_agent(prompt: str):
 
 
 async def main():
+    create_agents()
     print(
         await run_agent(
             "I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."
