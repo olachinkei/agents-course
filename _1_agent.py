@@ -1,14 +1,30 @@
 import json
+
 from openai import OpenAI
-from utils import tag, fn_to_schema
+from pydantic import BaseModel
+
+# import weave
+from utils import fn_to_schema, tag
+
+# weave.init(project_name=config.WEAVE_PROJECT)
 
 
-class MiniAgent:
-    def __init__(self, instructions: str, tools: list, model: str = "gpt-4o-mini"):
+# class MiniAgent(weave.Model):
+class MiniAgent(BaseModel):
+
+    client: OpenAI = None
+    instructions: str = ""
+    model: str = "o4-mini"
+    tools: dict = {}
+    tools_schema: list = []
+    _seen_ids: set = set()
+
+    def __init__(self, instructions: str, tools: list, model: str = "o4-mini"):
+        super().__init__()
         self.client = OpenAI()
         self.instructions, self.model = instructions, model
         self.tools = {fn.__name__: fn for fn in tools}
-        self.schema = [fn_to_schema(fn) for fn in tools]
+        self.tools_schema = [fn_to_schema(fn) for fn in tools]
         self._seen_ids = set()  # avoid double‑printing items
 
     # ---------- item handler -------------------------------------------
@@ -42,6 +58,7 @@ class MiniAgent:
         return []
 
     # ---------- main loop ----------------------------------------------
+    # @weave.op()
     def run(self, user_text: str):
         print("Input:", user_text)
         turn_input = [{"role": "user", "content": user_text}]
@@ -51,7 +68,7 @@ class MiniAgent:
             stream = self.client.responses.create(
                 model=self.model,
                 instructions=self.instructions,
-                tools=self.schema,
+                tools=self.tools_schema,
                 input=turn_input,
                 previous_response_id=prev_id,
                 stream=True,
@@ -71,4 +88,19 @@ class MiniAgent:
                         turn_input += self._handle_item(it)
                         items.append(it)
 
-        return items
+        return {"response": items[-1], "thoughts": items}
+
+
+# @weave.op()
+def add(a: int, b: int) -> int:
+    """Add two numbers together and return the result."""
+    return a + b
+
+
+if __name__ == "__main__":
+    tools = [add]
+    agent = MiniAgent(
+        instructions="You are a helpful assistant that can add numbers. Call the `add` tool to add numbers.",
+        tools=tools,
+    )
+    agent.run("What is 2 + 2?")

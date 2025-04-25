@@ -1,0 +1,20 @@
+[project]
+name = "agents-course"
+version = "0.1.0"
+description = "Learn to build AI agents with Python, OpenAI, and Weave - from basic workflows to multi-agent systems"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.2.5",
+    "openai>=1.75.0",
+    "openai-agents>=0.0.12",
+    "weave>=0.51.43",
+]
+
+[dependency-groups]
+dev = [
+    "autoflake>=2.3.1",
+    "black>=25.1.0",
+    "flake8>=7.2.0",
+    "isort>=6.0.1",
+]

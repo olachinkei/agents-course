@@ -1,4 +1,11 @@
+import asyncio
+
+import weave
 from agents import Agent, Runner, function_tool
+
+import config
+
+# weave.init(project_name=config.WEAVE_PROJECT)
 
 
 @function_tool
@@ -26,6 +33,7 @@ def get_faq(topic: str):
 
 
 flight_booking_agent = Agent(
+    name="Flight Booking Agent",
     instructions=(
         "1. greet user\n"
         "2. use search_flights to fetch options\n"
@@ -38,6 +46,7 @@ flight_booking_agent = Agent(
 )
 
 hotel_booking_agent = Agent(
+    name="Hotel Booking Agent",
     instructions=(
         "1. greet user\n"
         "2. use search_hotels to fetch options\n"
@@ -50,6 +59,7 @@ hotel_booking_agent = Agent(
 )
 
 claims_agent = Agent(
+    name="Claims Agent",
     instructions=(
         "1. greet user\n"
         "2. ask flight number\n"
@@ -64,6 +74,7 @@ claims_agent = Agent(
 )
 
 faq_agent = Agent(
+    name="FAQ Agent",
     instructions=(
         "1. greet user\n"
         "2. ask what info they need\n"
@@ -77,6 +88,7 @@ faq_agent = Agent(
 
 
 booking_router_agent = Agent(
+    name="Booking Router Agent",
     instructions=(
         "1. greet user\n"
         "2. ask name, phone, trip type (flight/hotel), origin/dest & dates\n"
@@ -90,6 +102,7 @@ booking_router_agent = Agent(
 
 
 triage_agent = Agent(
+    name="Triage Agent",
     instructions=(
         "1. greet user\n"
         "2. decide: booking, claim, or info\n"
@@ -102,4 +115,30 @@ triage_agent = Agent(
 )
 
 
-assistant = Runner(root_agent=triage_agent)
+# @weave.op()
+async def run_agent(prompt: str):
+    response = await Runner.run(triage_agent, prompt)
+    return response.final_output
+
+
+async def main():
+    print(
+        await run_agent(
+            "I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."
+        )
+    )
+    print(
+        await run_agent(
+            "I am Ana. Book a hotel in Tokyo for 3 nights. My phone number is 1234567890. The checkin date is 2025-05-01"
+        )
+    )
+    print(
+        await run_agent(
+            "I need to file a claim for my delayed flight FL123 from yesterday"
+        )
+    )
+    print(await run_agent("What is your baggage allowance policy?"))
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
