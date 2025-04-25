@@ -1,6 +1,6 @@
 import asyncio
 
-import weave
+# import weave
 from agents import Agent, Runner, function_tool
 
 import config

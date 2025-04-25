@@ -1,4 +1,4 @@
-import weave
+# import weave
 from openai import OpenAI
 
 import config
