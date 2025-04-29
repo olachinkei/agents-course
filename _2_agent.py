@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 # import weave
 from utils import fn_to_schema, tag
+import config
 
 # weave.init(project_name=config.WEAVE_PROJECT)
 

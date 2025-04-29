@@ -1,6 +1,8 @@
 from agents import Agent, Runner, function_tool
  from typing import Callable, Any, List, Tuple
 
+import config
+
 
  @function_tool
  def add(a: int, b: int) -> int:

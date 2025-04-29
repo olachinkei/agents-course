@@ -430,7 +430,7 @@ def create_agents(instruction_style="standard"):
     """
     from agents import Agent
 
-    from _3_multi_agents import (
+    from _4_multi_agents import (
         get_faq,
         search_flights,
         search_hotels,
