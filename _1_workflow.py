@@ -6,7 +6,6 @@ import config
 # weave.init(project_name=config.WEAVE_PROJECT)
 client = OpenAI()
 
-
 # @weave.op()
 def response(instructions: str, user_input: str):
     response = client.responses.create(

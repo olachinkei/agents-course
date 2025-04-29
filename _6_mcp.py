@@ -2,11 +2,11 @@ import asyncio
 import os
 import shutil
 
+import weave
 from agents import Agent, Runner
 from agents.mcp import MCPServer, MCPServerStdio
 
 import config
-import weave
 
 weave.init(config.WEAVE_PROJECT)
 
@@ -26,7 +26,9 @@ async def run(mcp_server: MCPServer):
     print(result.final_output)
 
     # Ask about books
-    message = "What is my #1 favorite book? It is the one that is the first in the list."
+    message = (
+        "What is my #1 favorite book? It is the one that is the first in the list."
+    )
     print(f"\n\nRunning: {message}")
     result = await Runner.run(starting_agent=agent, input=message)
     print(result.final_output)
@@ -55,6 +57,8 @@ async def main():
 if __name__ == "__main__":
     # Let's make sure the user has npx installed
     if not shutil.which("npx"):
-        raise RuntimeError("npx is not installed. Please install it with `npm install -g npx`.")
+        raise RuntimeError(
+            "npx is not installed. Please install it with `npm install -g npx`."
+        )
 
     asyncio.run(main())

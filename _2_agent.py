@@ -3,9 +3,10 @@ import json
 from openai import OpenAI
 from pydantic import BaseModel
 
+
 # import weave
-from utils import fn_to_schema, tag
 import config
+from utils import fn_to_schema, tag
 
 # weave.init(project_name=config.WEAVE_PROJECT)
 
