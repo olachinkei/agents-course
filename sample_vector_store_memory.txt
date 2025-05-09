@@ -1,0 +1,46 @@
+{
+  "memories": [
+    {
+      "season": "Spring Break",
+      "year": "this year",
+      "weather": {
+        "days": "mild, sunny",
+        "evenings": "cool"
+      },
+      "activities": [
+        "outdoor activities",
+        "relaxation"
+      ],
+      "notes": "Perfect weather for being outside."
+    },
+    {
+      "season": "Winter",
+      "weather": {
+        "weeks": "several chilly",
+        "precipitation": "occasional rain",
+        "overall": "milder than usual"
+      },
+      "notes": "Winter was less harsh than normal."
+    },
+    {
+      "season": "Fall",
+      "weather": {
+        "air": "crisp",
+        "leaves": "colorful",
+        "days": "a few windy, mostly pleasant"
+      },
+      "notes": "Classic fall weather with beautiful foliage."
+    },
+    {
+      "season": "Summer",
+      "weather": {
+        "temperature": "hot and dry, often in the 90s"
+      },
+      "activities": [
+        "swimming",
+        "beach trips"
+      ],
+      "notes": "Ideal for water activities."
+    }
+  ]
+}

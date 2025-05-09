@@ -5,10 +5,13 @@ import os
 import numpy as np
 
 # import weave
-from agents import Agent, Runner, function_tool
+from agents import Agent, Runner, function_tool, FileSearchTool
 from openai import OpenAI
 
 import config
+
+VECTOR_STORE_ID = None
+MEMORY_VECTOR_FILE_ID = None
 
 # weave.init(project_name=config.WEAVE_PROJECT)
 client = OpenAI()
@@ -91,13 +94,32 @@ memory_agent_1 = Agent(
     model="gpt-4o-mini",
 )
 
+
+def get_vector_store_id():
+    global VECTOR_STORE_ID
+    if VECTOR_STORE_ID:
+        return VECTOR_STORE_ID
+
+    # Otherwise, create a new vector store
+    vector_store = client.vector_stores.create(
+        name="Agent Course",
+    )
+    client.vector_stores.files.upload_and_poll(
+        vector_store_id=vector_store.id,
+        file=open("sample_vector_store_memory.txt", "rb"),
+    )
+    print(f"Created new vector store: {vector_store.id}")
+    VECTOR_STORE_ID = vector_store.id
+    return vector_store.id
+
+
 # Create search agent with just FileSearchTool
-# memory_agent_2 = Agent(
-#     name="Memory Manager 2",
-#     instructions="Help search through files.",
-#     tools=[FileSearchTool(vector_store_ids=["123"])],
-#     model="gpt-4o-mini",
-# )
+memory_agent_2 = Agent(
+    name="Memory Manager 2",
+    instructions="Help search through files.",
+    tools=[FileSearchTool(vector_store_ids=[get_vector_store_id()])],
+    model="gpt-4o-mini",
+)
 
 
 async def main():
@@ -109,12 +131,6 @@ async def main():
     )
     print(response.final_output)
 
-    # response = await Runner.run(
-    #     memory_agent_2,
-    #     "Save this memory: The weather was beautiful during spring break"
-    # )
-    # print(response.final_output)
-
     # Now let's query those memories
     print("\nQuerying memories...")
     response = await Runner.run(memory_agent_1, "What do you remember about Python?")
@@ -122,11 +138,10 @@ async def main():
 
     # Use the search agent to look through files
     # print("\nSearching files...")
-    # response = await Runner.run(
-    #     memory_agent_2,
-    #     "How was the weather during spring break?"
-    # )
-    # print(response.final_output)
+    response = await Runner.run(
+        memory_agent_2, "How was the weather during spring break?"
+    )
+    print(response.final_output)
 
 
 if __name__ == "__main__":
