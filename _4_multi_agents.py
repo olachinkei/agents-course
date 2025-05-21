@@ -1,11 +1,11 @@
 import asyncio
 
-# import weave
+import weave
 from agents import Agent, Runner, function_tool
 
 import config
 
-# weave.init(project_name=config.WEAVE_PROJECT)
+weave.init(project_name=config.WEAVE_PROJECT)
 
 
 @function_tool
@@ -115,13 +115,14 @@ triage_agent = Agent(
 )
 
 
-# @weave.op()
+@weave.op()
 async def run_agent(prompt: str):
     response = await Runner.run(triage_agent, prompt)
     return response.final_output
 
 
-async def main():
+@weave.op()
+async def chapter_4_multi_agents():
     print(
         await run_agent(
             "I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."
@@ -139,6 +140,17 @@ async def main():
     )
     print(await run_agent("What is your baggage allowance policy?"))
 
+    previous_response_id = None
+    cur_agent = triage_agent
+    while True:
+        user_in = input("> ")
+        response = await Runner.run(
+            cur_agent, user_in, previous_response_id=previous_response_id
+        )
+        previous_response_id = response.last_response_id
+        cur_agent = response.last_agent
+        print(f"[{cur_agent.name}] {response.final_output}")
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(chapter_4_multi_agents())

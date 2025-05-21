@@ -141,7 +141,8 @@ async def evaluate_agent_with_weave(
     return await evaluation.evaluate(model, __weave={"display_name": display_name})
 
 
-async def main():
+@weave.op()
+async def chapter_5_point_2_evals():
     # Test both instruction styles
     for style in ["standard", "enhanced"]:
         (
@@ -217,4 +218,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(chapter_5_point_2_evals())

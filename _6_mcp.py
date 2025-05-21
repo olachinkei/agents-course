@@ -40,7 +40,8 @@ async def run(mcp_server: MCPServer):
     print(result.final_output)
 
 
-async def main():
+@weave.op()
+async def chapter_6_mcp():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     samples_dir = os.path.join(current_dir, "sample_files")
 
@@ -61,4 +62,4 @@ if __name__ == "__main__":
             "npx is not installed. Please install it with `npm install -g npx`."
         )
 
-    asyncio.run(main())
+    asyncio.run(chapter_6_mcp())

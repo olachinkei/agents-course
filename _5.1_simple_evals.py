@@ -1,5 +1,12 @@
 from typing import Any, Callable
+
+import weave
 from agents import Agent, Runner, function_tool
+from weave import EvaluationLogger
+
+import config
+
+weave.init(project_name=config.WEAVE_PROJECT)
 
 
 @function_tool
@@ -15,6 +22,7 @@ calc_agent = Agent(
 )
 
 
+@weave.op()
 def llm_judge(criteria: str) -> Callable[[str, str], bool]:
     """Return an LLM‑based evaluator closure."""
 
@@ -33,6 +41,7 @@ def llm_judge(criteria: str) -> Callable[[str, str], bool]:
     return judge
 
 
+@weave.op()
 def run_eval(
     prompt: str,
     expected: Any,
@@ -66,10 +75,36 @@ TESTS += [
     ),
 ]
 
-if __name__ == "__main__":
+
+@weave.op()
+def chapter_5_point_1_simple_evals():
+    eval_logger = EvaluationLogger(model="CalcAgent", dataset="Simple Calculator Tests")
+
     passed = 0
     for i, (prompt, expected, *ev) in enumerate(TESTS, 1):
         ok, got = run_eval(prompt, expected, ev[0] if ev else (lambda a, e: a == e))
         passed += ok
+
+        pred_logger = eval_logger.log_prediction(inputs={"prompt": prompt}, output=got)
+
+        pred_logger.log_score(scorer="correctness", score=float(ok))
+
+        pred_logger.log_score(scorer="expected_output", score=expected)
+
+        pred_logger.finish()
+
         print(f"{'✅' if ok else '❌'} {i}. {prompt!r} → {got!r}")
+
+    eval_logger.log_summary(
+        {
+            "total_tests": len(TESTS),
+            "passed_tests": passed,
+            "pass_rate": passed / len(TESTS),
+        }
+    )
+
     print(f"\nPassed {passed}/{len(TESTS)} tests")
+
+
+if __name__ == "__main__":
+    chapter_5_point_1_simple_evals()

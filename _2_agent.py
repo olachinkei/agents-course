@@ -1,25 +1,21 @@
 import json
 
+import weave
 from openai import OpenAI
-from pydantic import BaseModel
 
-
-# import weave
 import config
 from utils import fn_to_schema, tag
 
-# weave.init(project_name=config.WEAVE_PROJECT)
+weave.init(project_name=config.WEAVE_PROJECT)
 
 
-# class MiniAgent(weave.Model):
-class MiniAgent(BaseModel):
+class MiniAgent(weave.Model):
 
     client: OpenAI = None
     instructions: str = ""
     model: str = "o4-mini"
     tools: dict = {}
     tools_schema: list = []
-    _seen_ids: set = set()
 
     def __init__(self, instructions: str, tools: list, model: str = "o4-mini"):
         super().__init__()
@@ -27,13 +23,9 @@ class MiniAgent(BaseModel):
         self.instructions, self.model = instructions, model
         self.tools = {fn.__name__: fn for fn in tools}
         self.tools_schema = [fn_to_schema(fn) for fn in tools]
-        self._seen_ids = set()  # avoid double‑printing items
 
     # ---------- item handler -------------------------------------------
     def _handle_item(self, item):
-        if item.id in self._seen_ids:  # already processed
-            return []
-        self._seen_ids.add(item.id)
 
         if item.type == "reasoning":
             print(tag("reasoning") + "".join(item.summary))
@@ -60,7 +52,7 @@ class MiniAgent(BaseModel):
         return []
 
     # ---------- main loop ----------------------------------------------
-    # @weave.op()
+    @weave.op()
     def run(self, user_text: str):
         print("Input:", user_text)
         turn_input = [{"role": "user", "content": user_text}]
@@ -93,16 +85,30 @@ class MiniAgent(BaseModel):
         return {"response": items[-1], "thoughts": items}
 
 
-# @weave.op()
+@weave.op()
 def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
     return a + b
 
 
-if __name__ == "__main__":
-    tools = [add]
+@weave.op()
+def send_email(to: str, subject: str, body: str):
+    """Send an email to the given address with the given subject and body."""
+    print(f"Sending email to {to} with subject {subject} and body {body}")
+
+
+@weave.op()
+def chapter_2_agent():
+    tools = [add, send_email]
     agent = MiniAgent(
         instructions="You are a helpful assistant that can add numbers. Call the `add` tool to add numbers.",
         tools=tools,
     )
     agent.run("What is 2 + 2?")
+    agent.run(
+        "Send an email to John Doe with the subject 'Hello' and body 'How are you?'"
+    )
+
+
+if __name__ == "__main__":
+    chapter_2_agent()
