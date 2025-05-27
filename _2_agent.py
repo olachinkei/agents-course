@@ -77,10 +77,6 @@ class MiniAgent(weave.Model):
 
                 if event.type == "response.completed":
                     prev_id = event.response.id
-                    # TEMP PATCH: handle any items that never streamed
-                    for it in event.response.output:
-                        turn_input += self._handle_item(it)
-                        items.append(it)
 
         return {"response": items[-1], "thoughts": items}
 
@@ -88,7 +84,7 @@ class MiniAgent(weave.Model):
 @weave.op()
 def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
-    return a + b
+    return int(a) + int(b)
 
 
 @weave.op()

@@ -88,11 +88,11 @@ def query_memory(query: str) -> str:
 
 
 # Create memory management agent with memory-related tools
-memory_agent_1 = Agent(
-    name="Memory Manager 1",
+memory_agent_2 = Agent(
+    name="Memory Manager 2",
     instructions="Help users save and query their memories.",
     tools=[save_memory, query_memory],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 
@@ -115,11 +115,11 @@ def get_vector_store_id():
 
 
 # Create search agent with just FileSearchTool
-memory_agent_2 = Agent(
-    name="Memory Manager 2",
+memory_agent_1 = Agent(
+    name="Memory Manager 1",
     instructions="Help search through files.",
     tools=[FileSearchTool(vector_store_ids=[get_vector_store_id()])],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 

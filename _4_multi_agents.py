@@ -42,7 +42,7 @@ flight_booking_agent = Agent(
         "5. offer further help"
     ),
     tools=[search_flights],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 hotel_booking_agent = Agent(
@@ -55,7 +55,7 @@ hotel_booking_agent = Agent(
         "5. offer further help"
     ),
     tools=[search_hotels],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 claims_agent = Agent(
@@ -70,7 +70,7 @@ claims_agent = Agent(
         "7. confirm claim ref"
     ),
     tools=[submit_flight_claim],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 faq_agent = Agent(
@@ -83,7 +83,7 @@ faq_agent = Agent(
         "5. offer further help"
     ),
     tools=[get_faq],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 
@@ -97,7 +97,7 @@ booking_router_agent = Agent(
         "5. confirm hand‑off"
     ),
     handoffs=[flight_booking_agent, hotel_booking_agent],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 
@@ -111,7 +111,7 @@ triage_agent = Agent(
         "5. info → faq_agent"
     ),
     handoffs=[booking_router_agent, claims_agent, faq_agent],
-    model="gpt-4o-mini",
+    model="gpt-4.1",
 )
 
 
@@ -140,16 +140,16 @@ async def chapter_4_multi_agents():
     )
     print(await run_agent("What is your baggage allowance policy?"))
 
-    previous_response_id = None
-    cur_agent = triage_agent
-    while True:
-        user_in = input("> ")
-        response = await Runner.run(
-            cur_agent, user_in, previous_response_id=previous_response_id
-        )
-        previous_response_id = response.last_response_id
-        cur_agent = response.last_agent
-        print(f"[{cur_agent.name}] {response.final_output}")
+    # previous_response_id = None
+    # cur_agent = triage_agent
+    # while True:
+    #     user_in = input("> ")
+    #     response = await Runner.run(
+    #         cur_agent, user_in, previous_response_id=previous_response_id
+    #     )
+    #     previous_response_id = response.last_response_id
+    #     cur_agent = response.last_agent
+    #     print(f"[{cur_agent.name}] {response.final_output}")
 
 
 if __name__ == "__main__":
