@@ -125,7 +125,7 @@ async def run_agent(prompt: str):
 
 
 @weave.op()
-async def chapter_4_multi_agents():
+async def multi_agents():
     previous_response_id = None
     cur_agent = triage_agent
     while True:
@@ -139,4 +139,4 @@ async def chapter_4_multi_agents():
 
 
 if __name__ == "__main__":
-    asyncio.run(chapter_4_multi_agents())
+    asyncio.run(multi_agents())

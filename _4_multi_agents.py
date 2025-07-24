@@ -119,10 +119,10 @@ triage_agent = Agent(
 
 
 @weave.op()
-async def run_agent(prompt: str):
+async def run_multipleagent(prompt: str):
     response = await Runner.run(triage_agent, prompt)
     return response.final_output
 
 
 if __name__ == "__main__":
-    asyncio.run(run_agent(prompt="I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."))
+    asyncio.run(run_multipleagent(prompt="I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."))

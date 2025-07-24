@@ -99,17 +99,14 @@ def send_email(to: str, subject: str, body: str):
 
 
 @weave.op()
-def chapter_2_agent():
+def run_handmade_agent(input: str):
     tools = [add, send_email]
     agent = MiniAgent(
-        instructions="You are a helpful assistant that can add numbers. Call the `add` tool to add numbers.",
+        instructions="You are a helpful assistant that can handle adding numbers. You can also call the `send_email` tool to send an email.",
         tools=tools,
     )
-    agent.run("What is 2 + 2?")
-    agent.run(
-        "Send an email to John Doe with the subject 'Hello' and body 'How are you?'"
-    )
-
+    return agent.run(input)
 
 if __name__ == "__main__":
-    chapter_2_agent()
+    run_handmade_agent("What is 2 + 2?")
+    run_handmade_agent("Send an email to John Doe with the subject 'Hello' and body 'How are you?'")

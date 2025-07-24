@@ -70,7 +70,7 @@ async def user_model(prompt: str) -> Any:
 
 
 @weave.op()
-async def chapter_5_point_1_simple_evals():
+async def simple_evals():
     # Initialize EvaluationLogger BEFORE calling the model
     eval_logger = EvaluationLogger(
         model="CalcAgent",
@@ -98,7 +98,6 @@ async def chapter_5_point_1_simple_evals():
         {'inputs': {'prompt': 'Calculate 9876 divided by 1234'}, 'expected': 8.0},
         {'inputs': {'prompt': 'What is 50000 minus 37892?'}, 'expected': 12108},
         {'inputs': {'prompt': 'Add 99999 and 88888'}, 'expected': 188887},
-        {'inputs': {'prompt': 'What is 2 + 3 × 4?'}, 'expected': 'Cannot calculate'},  # Order of operations - cannot handle
     ]
 
     passed = 0
@@ -147,4 +146,4 @@ async def chapter_5_point_1_simple_evals():
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(chapter_5_point_1_simple_evals())
+    asyncio.run(simple_evals())

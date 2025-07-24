@@ -21,12 +21,11 @@ agent = Agent(
 )
 
 @weave.op()
-async def chapter_3_agents_sdk(input):
+async def run_sdk(input):
     response = await Runner.run(agent, input)
     print(response.final_output)
     return response.final_output
 
 
-
 if __name__ == "__main__":
-    asyncio.run(chapter_3_agents_sdk(input="What is 2 + 2?"))
+    asyncio.run(run_sdk(input="What is 2 + 2?"))

@@ -18,8 +18,7 @@ weave.init(project_name=config.WEAVE_PROJECT)
 
 client = OpenAI()
 
-#-------------- Practice 2 --------------
-MEMORY_FILE = "memory_store.jsonl"
+#-------------- Practice 1 --------------
 
 def get_vector_store_id():
     global VECTOR_STORE_ID
@@ -48,7 +47,7 @@ memory_agent_1 = Agent(
 )
 
 @weave.op()
-async def main_1():
+async def memory_main_1():
     question = "What was the weather during spring break?"
     print("Input:", question)
     response = await Runner.run(memory_agent_1, question)
@@ -56,6 +55,7 @@ async def main_1():
 
 #-------------- Practice 2 --------------
 
+MEMORY_FILE = "memory_store.jsonl"
 @weave.op()
 def get_embedding(text: str) -> np.ndarray:
     return np.array(
@@ -133,9 +133,8 @@ memory_agent_2 = Agent(
 
 
 
-
 @weave.op()
-async def main_2():
+async def memory_main_2():
     # First, let's store some memories
     print("Storing memories...")
     memory_input = (
@@ -155,4 +154,4 @@ async def main_2():
 
 if __name__ == "__main__":
     # Run the async main function
-    asyncio.run(main_1())
+    asyncio.run(memory_main_2())
