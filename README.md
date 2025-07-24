@@ -11,9 +11,37 @@ A comprehensive course on building AI agents using Python, OpenAI, and Weave. Th
     ```
 
 2. **Create and activate a virtual environment with all dependencies:**
+
+    ### Option A: Using uv (Recommended)
     ```bash
     uv venv .venv
     uv sync
+    ```
+
+    ### Option B: Using pip and requirements.txt
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
+    ### Option C: Using pyenv and pip
+    ```bash
+    # Install Python 3.11 if not already installed
+    pyenv install 3.11.0
+    pyenv local 3.11.0
+    
+    # Create virtual environment
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
+    ### Option D: Using conda
+    ```bash
+    conda create -n agents-course python=3.11
+    conda activate agents-course
+    pip install -r requirements.txt
     ```
 
 3. **Set up your environment variables:**
