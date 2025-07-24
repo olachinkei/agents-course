@@ -50,6 +50,19 @@ class MiniAgent(weave.Model):
             ]
 
         return []
+    
+    @weave.op()
+    def _think(self, turn_input, prev_id):
+        stream = self.client.responses.create(
+                model=self.model,
+                instructions=self.instructions,
+                tools=self.tools_schema,
+                input=turn_input,
+                previous_response_id=prev_id,
+                stream=True,
+                reasoning={"effort": "low"},
+            )
+        return stream
 
     # ---------- main loop ----------------------------------------------
     @weave.op()
@@ -59,15 +72,7 @@ class MiniAgent(weave.Model):
         prev_id, items = None, []
 
         while turn_input:
-            stream = self.client.responses.create(
-                model=self.model,
-                instructions=self.instructions,
-                tools=self.tools_schema,
-                input=turn_input,
-                previous_response_id=prev_id,
-                stream=True,
-                reasoning={"effort": "low"},
-            )
+            stream = self._think(turn_input, prev_id)
             turn_input = []  # collect next‑turn inputs
 
             for event in stream:

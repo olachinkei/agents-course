@@ -5,11 +5,11 @@ description = "Learn to build AI agents with Python, OpenAI, and Weave - from ba
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "mcp[cli]>=1.6.0",
-    "numpy>=2.2.5",
-    "openai>=1.75.0",
-    "openai-agents>=0.0.12",
-    "weave>=0.51.43",
+    "mcp[cli]>=1.12.1",
+    "numpy>=2.3.1",
+    "openai>=1.97.1",
+    "openai-agents>=0.2.3",
+    "weave>=0.51.56",
 ]
 
 [dependency-groups]

@@ -124,5 +124,19 @@ async def run_agent(prompt: str):
     return response.final_output
 
 
+@weave.op()
+async def chapter_4_multi_agents():
+    previous_response_id = None
+    cur_agent = triage_agent
+    while True:
+        user_in = input("> ")
+        response = await Runner.run(
+            cur_agent, user_in, previous_response_id=previous_response_id
+        )
+        previous_response_id = response.last_response_id
+        cur_agent = response.last_agent
+        print(f"[{cur_agent.name}] {response.final_output}")
+
+
 if __name__ == "__main__":
-    asyncio.run(run_agent(prompt="I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."))
+    asyncio.run(chapter_4_multi_agents())

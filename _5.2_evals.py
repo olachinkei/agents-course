@@ -2,8 +2,10 @@ import asyncio
 from typing import Any, Callable, List, Optional, Tuple
 
 import weave
-from agents import Agent, Runner
+from agents import Agent, Runner, set_trace_processors
 from pydantic import Field
+from weave.integrations.openai_agents.openai_agents import WeaveTracingProcessor
+set_trace_processors([WeaveTracingProcessor()])
 
 import config
 from eval_utils import (

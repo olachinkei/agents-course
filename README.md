@@ -2,6 +2,34 @@
 Click here to get the course: [Agents Course](https://wandb.me/agents)
 A comprehensive course on building AI agents using Python, OpenAI, and Weave. This course covers various aspects of agent development, from basic workflows to complex multi-agent systems with memory and evaluation capabilities.
 
+## Installation
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/agents-course.git
+    cd agents-course
+    ```
+
+2. **Create and activate a virtual environment with all dependencies:**
+    ```bash
+    uv venv .venv
+    uv sync
+    ```
+
+3. **Set up your environment variables:**
+    Create a `.env` file in the project root with:
+    ```env
+    OPENAI_API_KEY=your_openai_api_key
+    WANDB_API_KEY=your_wandb_api_key
+    ```
+
+    To load these environment variables in your shell, you can run:
+    ```bash
+    set -a
+    source .env
+    set +a
+    ```
+
 ## Course Structure & Order
 
 The course is designed to be followed in order, with each module building on the previous one:
@@ -65,26 +93,7 @@ The course is designed to be followed in order, with each module building on the
 - Weights & Biases (wandb) API key
 - [npx](https://www.npmjs.com/package/npx) (for MCP integration, see `_6_mcp.py`)
 
-## Installation
 
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/agents-course.git
-    cd agents-course
-    ```
-
-2. **Create and activate a virtual environment with all dependencies:**
-    ```bash
-    uv venv .venv
-    uv sync
-    ```
-
-3. **Set up your environment variables:**
-    Create a `.env` file in the project root with:
-    ```env
-    OPENAI_API_KEY=your_openai_api_key
-    WANDB_API_KEY=your_wandb_api_key
-    ```
 
 ---
 

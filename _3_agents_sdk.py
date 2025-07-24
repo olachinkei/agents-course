@@ -1,12 +1,13 @@
 import asyncio
 
 import weave
-from agents import Agent, Runner, function_tool
+from agents import Agent, Runner, function_tool, set_trace_processors
 
 import config
+from weave.integrations.openai_agents.openai_agents import WeaveTracingProcessor
 
 weave.init(project_name=config.WEAVE_PROJECT)
-
+set_trace_processors([WeaveTracingProcessor()])
 
 @function_tool
 def add(a: int, b: int) -> int:
@@ -19,12 +20,13 @@ agent = Agent(
     tools=[add],
 )
 
-
 @weave.op()
-async def chapter_3_agents_sdk():
-    response = await Runner.run(agent, "What is 2 + 2?")
+async def chapter_3_agents_sdk(input):
+    response = await Runner.run(agent, input)
     print(response.final_output)
+    return response.final_output
+
 
 
 if __name__ == "__main__":
-    asyncio.run(chapter_3_agents_sdk())
+    asyncio.run(chapter_3_agents_sdk(input="What is 2 + 2?"))
