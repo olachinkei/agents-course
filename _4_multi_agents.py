@@ -125,4 +125,4 @@ async def run_multipleagent(prompt: str):
 
 
 if __name__ == "__main__":
-    asyncio.run(run_multipleagent(prompt="I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890."))
+    print(asyncio.run(run_multipleagent(prompt="I am Din. Book a one way flight to Ireland tomorrow. My phone number is 1234567890.")))

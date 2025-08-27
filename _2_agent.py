@@ -60,7 +60,6 @@ class MiniAgent(weave.Model):
                 input=turn_input,
                 previous_response_id=prev_id,
                 stream=True,
-                reasoning={"effort": "low"},
             )
         return stream
 
@@ -102,7 +101,7 @@ def send_email(to: str, subject: str, body: str):
 def run_handmade_agent(input: str):
     tools = [add, send_email]
     agent = MiniAgent(
-        instructions="You are a helpful assistant that can handle adding numbers. You can also call the `send_email` tool to send an email.",
+        instructions="You are a helpful assistant that can handle adding numbers with tool `add`. You can also call the `send_email` tool to send an email.",
         tools=tools,
     )
     return agent.run(input)
