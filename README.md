@@ -47,6 +47,7 @@ A comprehensive course on building AI agents using Python, OpenAI, and Weave. Th
 3. **Set up your environment variables:**
     Create a `.env` file in the project root with:
     ```env
+    WANDB_BASE_URL= # please set this if you are using dedicated cloud or onpremise
     OPENAI_API_KEY=your_openai_api_key
     WANDB_API_KEY=your_wandb_api_key
     ```
