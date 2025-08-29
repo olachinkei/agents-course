@@ -59,6 +59,42 @@ A comprehensive course on building AI agents using Python, OpenAI, and Weave. Th
     set +a
     ```
 
+## Troubleshooting
+
+### ZoneInfoNotFoundError: 'No time zone found with key UTC'
+
+If you encounter this error when running the evaluation scripts, try these solutions:
+
+1. **Ensure tzdata is installed** (should be automatic with requirements.txt):
+   ```bash
+   pip install tzdata
+   ```
+
+2. **For Windows users**, you may need to explicitly install timezone data:
+   ```bash
+   pip install tzdata zoneinfo-backport
+   ```
+
+3. **For Python < 3.9 users**, install the backport:
+   ```bash
+   pip install backports.zoneinfo tzdata
+   ```
+
+4. **Alternative workaround** - Set timezone environment variable before running:
+   ```bash
+   # Linux/Mac
+   export TZ=UTC
+   python _5.2_evals.py
+   
+   # Windows (Command Prompt)
+   set TZ=UTC
+   python _5.2_evals.py
+   
+   # Windows (PowerShell)
+   $env:TZ="UTC"
+   python _5.2_evals.py
+   ```
+
 ## Course Structure & Order
 
 The course is designed to be followed in order, with each module building on the previous one:
